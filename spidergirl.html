@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Spider-Gwen Sweetheart 🕷️💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --gwen-pink: #FF2E7E;
+            --gwen-magenta: #E60067;
+            --gwen-cyan: #00F0FF;
+            --gwen-dark: #1A1A2E;
+            --gwen-white: #FFFFFF;
+            --gwen-card-bg: #FFFFFF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: linear-gradient(135deg, #FF66B2 0%, #FF2E7E 50%, #B5179E 100%);
+            color: var(--gwen-dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            padding: 1rem; 
+            text-align: center; 
+            overflow-x: hidden;
+        }
+
+        .container { 
+            max-width: 420px; 
+            width: 100%; 
+            position: relative; 
+            margin: auto; 
+        }
+
+        /* Typography */
+        h1.title {
+            font-family: 'Bangers', cursive; 
+            color: var(--gwen-white);
+            font-size: 2.4rem; 
+            margin-bottom: 6px; 
+            line-height: 1.1;
+            letter-spacing: 1.5px;
+            text-shadow: 3px 3px 0px var(--gwen-pink), -1px -1px 0px var(--gwen-dark);
+        }
+        p.subtitle { 
+            font-size: 0.95rem; 
+            color: var(--gwen-white); 
+            font-weight: 700; 
+            margin-bottom: 1.5rem; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3); 
+        }
+
+        /* Superhero Action Buttons */
+        .sweet-btn {
+            background: var(--gwen-white); 
+            color: var(--gwen-pink); 
+            border: 3px solid var(--gwen-pink);
+            padding: 12px 26px; 
+            border-radius: 30px; 
+            font-family: 'Bangers', cursive;
+            font-size: 1.3rem; 
+            letter-spacing: 1px; 
+            cursor: pointer; 
+            box-shadow: 0 5px 15px rgba(255, 46, 126, 0.3);
+            transition: all 0.15s ease; 
+            display: inline-block; 
+            margin-top: 1rem;
+        }
+        .sweet-btn:hover { transform: translateY(-2px); background: #FFF0F5; }
+        .sweet-btn:active { transform: translateY(3px); }
+
+        /* Web Portal / Envelope Box */
+        .envelope-box {
+            width: 180px; height: 130px; background: var(--gwen-white);
+            border-radius: 20px; margin: 1.5rem auto; cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 3.5rem; box-shadow: 0 8px 25px rgba(255, 46, 126, 0.4);
+            transition: transform 0.2s; position: relative;
+            border: 3px solid var(--gwen-pink);
+        }
+        .envelope-box:hover { transform: scale(1.08) rotate(3deg); }
+
+        /* Card Section UI */
+        .card {
+            background: var(--gwen-card-bg); 
+            padding: 1.5rem; 
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 4px solid var(--gwen-pink); 
+            margin-top: 1rem;
+        }
+
+        .pot-container { 
+            margin: 1rem auto; 
+            height: 150px; 
+            position: relative; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* MINI GAME STYLES */
+        .game-area {
+            width: 100%; 
+            height: 260px; 
+            background: #FFF0F5;
+            border: 3px dashed var(--gwen-pink); 
+            border-radius: 16px;
+            position: relative; 
+            overflow: hidden; 
+            margin: 1rem 0; 
+            cursor: crosshair;
+        }
+        .falling-item {
+            position: absolute; 
+            font-size: 1.8rem; 
+            font-weight: 800;
+            cursor: pointer;
+            user-select: none; 
+            transition: transform 0.1s;
+            z-index: 10;
+            padding: 8px 12px;
+            background: white;
+            border: 2px solid var(--gwen-pink);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .falling-item:hover { transform: scale(1.2); background: #FFD1DC; }
+
+        /* Gallery Slider */
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .img-blur-wrapper {
+            width: 100%; height: 220px; border-radius: 16px; overflow: hidden;
+            position: relative; border: 3px solid var(--gwen-pink);
+            background: #000;
+        }
+        .img-blur-wrapper img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: filter 0.1s linear;
+        }
+        .photo-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: var(--gwen-pink); color: white;
+            border: 2px solid var(--gwen-white); border-radius: 50%; width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; cursor: pointer; z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+        .photo-arrow:hover { background: var(--gwen-magenta); transform: translateY(-50%) scale(1.1); }
+        .arrow-left { left: 10px; }
+        .arrow-right { right: 10px; }
+
+        .gallery-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 10px;
+        }
+        .nav-btn {
+            background: var(--gwen-pink); border: none; padding: 6px 14px;
+            border-radius: 12px; font-weight: 700; cursor: pointer; color: white;
+            font-family: 'Bangers', cursive; font-size: 1.1rem; letter-spacing: 0.5px;
+            transition: 0.2s;
+        }
+        .nav-btn:hover { background: var(--gwen-magenta); }
+
+        input[type=range] {
+            width: 100%; -webkit-appearance: none; background: #FFD1DC;
+            height: 10px; border-radius: 5px; outline: none; border: 2px solid var(--gwen-pink);
+            margin-top: 10px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 26px; height: 26px;
+            border-radius: 50%; background: var(--gwen-pink); cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3); border: 2px solid var(--gwen-white);
+        }
+
+        /* Spidey Meter */
+        .meter-bg {
+            width: 100%; height: 26px; background: rgba(255,255,255,0.8);
+            border-radius: 20px; padding: 3px; border: 3px solid var(--gwen-pink);
+            margin: 1rem 0; overflow: hidden;
+        }
+        .meter-fill {
+            height: 100%; width: 10%; background: linear-gradient(90deg, #FF2E7E, #FF66B2);
+            border-radius: 20px; transition: width 0.3s ease;
+        }
+
+        /* Typewriter & Secret Box */
+        .typewriter-text {
+            font-size: 0.95rem; line-height: 1.7; text-align: left;
+            color: var(--gwen-dark); font-weight: 500;
+        }
+        .hidden-secret-btn {
+            display: inline-block; margin-top: 12px;
+            background: #FFF0F5; border: 2px dashed var(--gwen-pink);
+            padding: 8px 16px; border-radius: 14px;
+            cursor: pointer; font-weight: 700; color: var(--gwen-pink);
+            font-size: 0.85rem; transition: all 0.2s;
+        }
+        .hidden-secret-btn:hover { background: var(--gwen-pink); color: var(--gwen-white); transform: scale(1.05); }
+
+        .secret-box-below {
+            display: none;
+            margin-top: 15px; padding: 12px 15px;
+            background: #FFF0F5; border-left: 4px solid var(--gwen-pink);
+            border-radius: 8px; text-align: left; font-size: 0.9rem;
+            color: var(--gwen-dark); line-height: 1.5;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-8px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- 🕷️ SECTION 1: OPENING -->
+        <div id="sec-1">
+            <span style="font-size: 3.5rem; display: inline-block; animation: bounce 1s infinite alternate;">🕷️💖</span>
+            <h1 class="title">Hi, My Spider-Gwen!</h1>
+            <p class="subtitle">Misi multiverse spesial dengan nuansa Spider-Gwen dimulai! 🎸✨</p>
+
+            <div class="envelope-box" onclick="goToSec(2)">🕷️</div>
+            <p style="font-size: 0.85rem; color: var(--gwen-white); font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.4);">(Ketuk ikon laba-laba untuk mulai!)</p>
+        </div>
+
+        <!-- 🏙️ SECTION 2: THINGS I NEVER SAID -->
+        <div id="sec-2" style="display:none;">
+            <h1 class="title">Catatan Multiverse... ⚡</h1>
+            <p class="subtitle">Ketuk kartunya untuk membaca satu per satu ➔</p>
+
+            <div class="card" onclick="nextCardMsg()" style="cursor: pointer; min-height: 130px; display: flex; align-items: center; justify-content: center;">
+                <p id="cardMsg" style="font-size: 1.05rem; font-weight: 700; color: var(--gwen-pink);"></p>
+            </div>
+
+            <button class="sweet-btn" id="btn-sec2" style="display:none;" onclick="goToSec(3)">Rangkai Jaring Gwen 🕸️</button>
+        </div>
+
+        <!-- 🕸️ SECTION 3: WEB GARDEN/MISSION -->
+        <div id="sec-3" style="display:none;">
+            <h1 class="title">Jaring Penyelamat 🏙️</h1>
+            <p class="subtitle">Tembak jaringnya berkali-kali sampai terpasang penuh!</p>
+
+            <div class="card">
+                <div class="pot-container">
+                    <svg width="140" height="140" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="#FF2E7E" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="25" fill="none" stroke="#FF2E7E" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="10" fill="none" stroke="#FF2E7E" stroke-width="2"/>
+                        <line x1="50" y1="10" x2="50" y2="90" stroke="#FF66B2" stroke-width="3" id="web-line-1" style="stroke-dasharray:100; stroke-dashoffset:100; transition: 0.4s;"/>
+                        <line x1="10" y1="50" x2="90" y2="50" stroke="#FF66B2" stroke-width="3" id="web-line-2" style="stroke-dasharray:100; stroke-dashoffset:100; transition: 0.4s;"/>
+                        <line x1="20" y1="20" x2="80" y2="80" stroke="#FF2E7E" stroke-width="2.5" id="web-line-3" style="stroke-dasharray:100; stroke-dashoffset:100; transition: 0.4s;"/>
+                        <line x1="20" y1="80" x2="80" y2="20" stroke="#FF2E7E" stroke-width="2.5" id="web-line-4" style="stroke-dasharray:100; stroke-dashoffset:100; transition: 0.4s;"/>
+                        <circle cx="50" cy="50" r="7" fill="#FF66B2" id="web-center" style="transform: scale(0); transition: 0.4s; transform-origin: center; border: 2px solid #FF2E7E;"/>
+                    </svg>
+                </div>
+                <p id="garden-cap" style="font-weight: 700; font-size: 0.9rem; color: var(--gwen-pink);">Kekuatan Jaring: 0% ⚡</p>
+                <button class="sweet-btn" id="btn-water" onclick="waterGarden()">Tembakkan Jaring 🕸️</button>
+            </div>
+
+            <button class="sweet-btn" id="btn-sec3" style="display:none;" onclick="goToSec(4)">Main Mini Game Yuk! 🎮</button>
+        </div>
+
+        <!-- 🎮 SECTION 4: MINI GAME (CATCH THE WEB) -->
+        <div id="sec-4" style="display:none;">
+            <h1 class="title">Catch the Web! 🕸️</h1>
+            <p class="subtitle">Ketuk 5 Jaring (<span style="color:var(--gwen-pink);">🕸️</span>) saja untuk menang!</p>
+
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.9rem; margin-bottom: 5px; color: var(--gwen-pink);">
+                    <span>Skor: <span id="honeyScore">0</span>/5</span>
+                    <span>Hindari X ⚠️</span>
+                </div>
+                <div class="game-area" id="gameArea"></div>
+                <p id="gameMsg" style="font-size: 0.85rem; font-weight: 600; color: var(--gwen-dark);">Ketuk hanya pada ikon 🕸️ (Jaring)! 👇</p>
+            </div>
+
+            <button class="sweet-btn" id="btn-sec4" style="display:none;" onclick="goToSec(5)">Buka Arsip Foto 📷</button>
+        </div>
+
+        <!-- 📷 SECTION 5: GALLERY SLIDER -->
+        <div id="sec-5" style="display:none;">
+            <h1 class="title">Arsip Foto Spider-Gwen 📷</h1>
+            <p class="subtitle">Gunakan tombol panah atau geser slider blur!</p>
+
+            <div class="card">
+                <div class="gallery-container">
+                    <div class="photo-arrow arrow-left" onclick="prevPhoto()">◀</div>
+                    <div class="photo-arrow arrow-right" onclick="nextPhoto()">▶</div>
+
+                    <div class="img-blur-wrapper">
+                        <img id="blurImg" src="https://i.pinimg.com/1200x/72/91/29/7291294b6865eca4c7166af6aed56840.jpg?w=600" style="filter: blur(15px);">
+                    </div>
+                </div>
+
+                <div class="gallery-nav">
+                    <button class="nav-btn" onclick="prevPhoto()">◀ Sebelumnya</button>
+                    <span id="photoIndicator" style="font-family:'Bangers'; font-size:1.1rem; letter-spacing:1px; color:var(--gwen-pink);">Foto 1 dari 3</span>
+                    <button class="nav-btn" onclick="nextPhoto()">Selanjutnya ▶</button>
+                </div>
+
+                <input type="range" min="0" max="100" value="0" id="blurSlider" oninput="adjustBlur(this.value)">
+                <p id="blurCaption" style="font-size: 0.85rem; font-weight: 700; margin-top: 10px; opacity: 0.5; color: var(--gwen-pink);">"Momen petualangan paling seru ✨"</p>
+            </div>
+
+            <button class="sweet-btn" id="btn-sec5" style="display:none;" onclick="goToSec(6)">Cek Meteran Spider-Gwen ⚡</button>
+        </div>
+
+        <!-- ⚡ SECTION 6: METER & TYPEWRITER -->
+        <div id="sec-6" style="display:none;">
+            <h1 class="title">Seberapa Sayang ke Spider-Gwen?</h1>
+
+            <div class="meter-bg">
+                <div class="meter-fill" id="meterFill"></div>
+            </div>
+            <p id="meterText" style="font-family: 'Bangers', cursive; font-size: 1.3rem; letter-spacing:1px; color: var(--gwen-white); text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">10% - Siap beraksi! 🕷️</p>
+
+            <button class="sweet-btn" id="btn-boost" onclick="boostLove()">TAMBAH KEKUATAN SAYANG! ⚡</button>
+
+            <div class="card" id="letterCard" style="display:none; margin-top: 1.5rem;">
+                <h3 style="font-family: 'Bangers', cursive; letter-spacing:1px; color: var(--gwen-pink); margin-bottom: 10px; text-align: left; font-size:1.4rem;">Dear My Spider-Gwen Partner, 🕷️💖</h3>
+                
+                <div class="typewriter-text" id="typewriter"></div>
+
+                <div id="secretContainer" style="display:none;">
+                    <div class="hidden-secret-btn" onclick="revealSecretNote()">
+                        [ Ketuk untuk pesan rahasia multiversal 🤫 ]
+                    </div>
+                    
+                    <div class="secret-box-below" id="secretBox">
+                        <strong style="color: var(--gwen-pink);">✦ Catatan Rahasia Web-Slinger:</strong><br>
+                        Di setiap universe manapun, kamu tetap jadi satu-satunya orang paling berharga buat aku. You're my favorite superhero everyday! ⚡🕷️
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const messages = [
+            '"Dengan kekuatan besar, datang juga rasa sayang yang besar ke kamu." 🕷️',
+            '"Senyum kamu tuh sekeren aksi Spider-Gwen melompati gedung tinggi." 🏙️',
+            '"Selalu seru dan menyenangkan kalau lagi bareng kamu." ✨',
+            '"You are my absolute favorite partner in crime, today and always! ⚡❤️"'
+        ];
+
+        const letterContent = "Aku mungkin gak punya kekuatan laba-laba untuk berayun di gedung pencakar langit, tapi aku selalu siap buat nemenin kamu di setiap situasi. Terima kasih untuk semua tawa, serunya obrolan kita, dan momen indah yang kita lewati bareng.";
+
+        const photos = [
+            {
+                url: "https://i.pinimg.com/1200x/72/91/29/7291294b6865eca4c7166af6aed56840.jpg?w=600",
+                caption: '"Momen petualangan paling seru ✨"'
+            },
+            {
+                url: "https://i.pinimg.com/originals/28/a9/37/28a937667d02863923a1050e046522c0.jpg?w=600",
+                caption: '"Menjelajah kota bareng superhero kesayangan 🕷️"'
+            },
+            {
+                url: "https://i.pinimg.com/1200x/c0/83/8d/c0838d73b0635787bfcf03713f044158.jpg?w=600",
+                caption: '"Satu bingkai penuh tawa dan energi positif ⚡"'
+            }
+        ];
+        let currentPhotoIdx = 0;
+
+        function updatePhotoDisplay() {
+            const img = document.getElementById('blurImg');
+            const cap = document.getElementById('blurCaption');
+            const indicator = document.getElementById('photoIndicator');
+            const slider = document.getElementById('blurSlider');
+
+            img.src = photos[currentPhotoIdx].url;
+            cap.innerText = photos[currentPhotoIdx].caption;
+            indicator.innerText = `Foto ${currentPhotoIdx + 1} dari ${photos.length}`;
+            
+            slider.value = 0;
+            img.style.filter = `blur(15px)`;
+            cap.style.opacity = 0.5;
+        }
+
+        function nextPhoto() {
+            currentPhotoIdx = (currentPhotoIdx + 1) % photos.length;
+            updatePhotoDisplay();
+            confetti({ particleCount: 10, spread: 30, colors: ['#FF2E7E', '#FF66B2'] });
+        }
+
+        function prevPhoto() {
+            currentPhotoIdx = (currentPhotoIdx - 1 + photos.length) % photos.length;
+            updatePhotoDisplay();
+            confetti({ particleCount: 10, spread: 30, colors: ['#FF2E7E', '#FF66B2'] });
+        }
+
+        function revealSecretNote() {
+            const box = document.getElementById('secretBox');
+            box.style.display = 'block';
+            confetti({ particleCount: 40, spread: 70, origin: { y: 0.8 }, colors: ['#FF2E7E', '#FF66B2', '#FFFFFF', '#B5179E'] });
+        }
+
+        function goToSec(num) {
+            for(let i=1; i<=6; i++) {
+                let el = document.getElementById('sec-' + i);
+                if(el) el.style.display = 'none';
+            }
+            document.getElementById('sec-' + num).style.display = 'block';
+            confetti({ particleCount: 25, spread: 60, origin: { y: 0.6 }, colors: ['#FF2E7E', '#FF66B2', '#FFFFFF'] });
+
+            if(num === 4) {
+                setTimeout(startMiniGame, 150);
+            } else {
+                stopMiniGame();
+            }
+        }
+
+        let msgIdx = 0;
+        document.getElementById('cardMsg').innerText = messages[0];
+        
+        function nextCardMsg() {
+            msgIdx++;
+            if(msgIdx < messages.length) {
+                document.getElementById('cardMsg').innerText = messages[msgIdx];
+                confetti({ particleCount: 15, spread: 40, colors: ['#FF2E7E', '#FF66B2'] });
+            } else {
+                document.getElementById('cardMsg').innerText = '"Semua hal hebat itu terkumpul jadi satu di kamu! 🕷️⚡"';
+                document.getElementById('btn-sec2').style.display = 'inline-block';
+            }
+        }
+
+        let gardenWaterStep = 0;
+        function waterGarden() {
+            gardenWaterStep++;
+            const line1 = document.getElementById('web-line-1');
+            const line2 = document.getElementById('web-line-2');
+            const line3 = document.getElementById('web-line-3');
+            const line4 = document.getElementById('web-line-4');
+            const center = document.getElementById('web-center');
+            const cap = document.getElementById('garden-cap');
+
+            if(gardenWaterStep === 1) {
+                line1.style.strokeDashoffset = "0";
+                cap.innerText = "Kekuatan Jaring: 20% - Garis vertikal terpasang! 🕸️";
+                confetti({ particleCount: 10, spread: 25, colors: ['#FF66B2'] });
+            } else if(gardenWaterStep === 2) {
+                line2.style.strokeDashoffset = "0";
+                cap.innerText = "Kekuatan Jaring: 40% - Garis horizontal terpasang! 🕸️";
+                confetti({ particleCount: 12, spread: 25, colors: ['#FF2E7E'] });
+            } else if(gardenWaterStep === 3) {
+                line3.style.strokeDashoffset = "0";
+                cap.innerText = "Kekuatan Jaring: 60% - Jaring diagonal pertama! ⚡";
+                confetti({ particleCount: 15, spread: 30, colors: ['#FF66B2'] });
+            } else if(gardenWaterStep === 4) {
+                line4.style.strokeDashoffset = "0";
+                cap.innerText = "Kekuatan Jaring: 80% - Jaring silang terpasang! 🕷️";
+                confetti({ particleCount: 20, spread: 35, colors: ['#FF2E7E'] });
+            } else if(gardenWaterStep >= 5) {
+                center.style.transform = "scale(1)";
+                cap.innerText = "100% Web Complete! Jaring penyelamat siap! ⚡🎉";
+                document.getElementById('btn-water').style.display = 'none';
+                document.getElementById('btn-sec3').style.display = 'inline-block';
+                confetti({ particleCount: 100, spread: 90, colors: ['#FF2E7E', '#FF66B2', '#FFFFFF'] });
+            }
+        }
+
+        // MINI GAME LOGIC: TANGKAP HANYA JARING (🕸️), HINDARI YANG LAIN
+        let honeyScore = 0;
+        let gameInterval;
+        let activeItems = [];
+        let isGameRunning = false;
+
+        function startMiniGame() {
+            honeyScore = 0;
+            document.getElementById('honeyScore').innerText = honeyScore;
+            document.getElementById('btn-sec4').style.display = 'none';
+            document.getElementById('gameMsg').innerText = "Ketuk hanya pada Jaring (🕸️)!";
+            
+            const area = document.getElementById('gameArea');
+            area.innerHTML = '';
+            activeItems = [];
+            isGameRunning = true;
+            
+            if(gameInterval) clearInterval(gameInterval);
+
+            gameInterval = setInterval(() => {
+                if(!isGameRunning || honeyScore >= 5) return;
+                
+                const itemEl = document.createElement('div');
+                itemEl.className = 'falling-item';
+                
+                const itemsList = [
+                    { symbol: '🕸️', isTarget: true },
+                    { symbol: '⭐', isTarget: false },
+                    { symbol: '❌', isTarget: false }
+                ];
+                const chosen = itemsList[Math.floor(Math.random() * itemsList.length)];
+                
+                itemEl.innerText = chosen.symbol;
+                
+                const areaWidth = area.clientWidth > 60 ? area.clientWidth - 60 : 260;
+                const randomX = Math.max(10, Math.floor(Math.random() * areaWidth));
+                
+                itemEl.style.left = randomX + 'px';
+                itemEl.style.top = '-40px';
+
+                let currentTop = -40;
+                const speed = 1.2 + Math.random() * 0.8;
+
+                const itemObj = {
+                    element: itemEl,
+                    get y() { return currentTop; },
+                    set y(val) { currentTop = val; itemEl.style.top = val + 'px'; },
+                    speed: speed,
+                    isTarget: chosen.isTarget
+                };
+
+                itemEl.onmousedown = itemEl.ontouchstart = (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    if(!isGameRunning) return;
+                    
+                    itemEl.remove();
+                    const idx = activeItems.indexOf(itemObj);
+                    if(idx > -1) activeItems.splice(idx, 1);
+                    
+                    if(chosen.isTarget) {
+                        honeyScore++;
+                        document.getElementById('honeyScore').innerText = honeyScore;
+                        confetti({ particleCount: 12, spread: 30, colors: ['#FF2E7E', '#FF66B2'] });
+                        
+                        if(honeyScore >= 5) {
+                            stopMiniGame();
+                            document.getElementById('gameMsg').innerText = "Misi Selesai! Jaring berhasil dikumpulkan! 🎉";
+                            document.getElementById('btn-sec4').style.display = 'inline-block';
+                            confetti({ particleCount: 70, spread: 80 });
+                        }
+                    } else {
+                        document.getElementById('gameMsg').innerText = "Oops, salah ketuk! Cari ikon 🕸️ ya!";
+                        setTimeout(() => {
+                            if(honeyScore < 5 && isGameRunning) document.getElementById('gameMsg').innerText = "Ketuk hanya pada Jaring (🕸️)!";
+                        }, 1000);
+                    }
+                };
+
+                area.appendChild(itemEl);
+                activeItems.push(itemObj);
+
+            }, 900);
+
+            requestAnimationFrame(updateGameLoop);
+        }
+
+        function updateGameLoop() {
+            if (!isGameRunning) return;
+
+            const areaHeight = 260;
+            for (let i = activeItems.length - 1; i >= 0; i--) {
+                let obj = activeItems[i];
+                obj.y += obj.speed;
+
+                if (obj.y > areaHeight) {
+                    obj.element.remove();
+                    activeItems.splice(i, 1);
+                }
+            }
+
+            if (isGameRunning) {
+                requestAnimationFrame(updateGameLoop);
+            }
+        }
+
+        function stopMiniGame() {
+            isGameRunning = false;
+            if(gameInterval) clearInterval(gameInterval);
+            activeItems.forEach(obj => obj.element.remove());
+            activeItems = [];
+        }
+
+        function adjustBlur(val) {
+            const img = document.getElementById('blurImg');
+            const cap = document.getElementById('blurCaption');
+            let blurPx = (100 - val) / 6;
+            img.style.filter = `blur(${blurPx}px)`;
+            cap.style.opacity = val / 100;
+
+            if(val >= 95) {
+                document.getElementById('btn-sec5').style.display = 'inline-block';
+            }
+        }
+
+        let loveLevel = 10;
+        const levels = [
+            { pct: 40, text: "40% - Mode siaga aktif! ⚡" },
+            { pct: 80, text: "80% - Berayun penuh semangat! 🕸️" },
+            { pct: 1000, text: "1000% - PAHLAWAN FAVORIT SELAMANYA! 🕷️💖" }
+        ];
+        let lvlIdx = 0;
+
+        function boostLove() {
+            if(lvlIdx < levels.length) {
+                loveLevel = levels[lvlIdx].pct;
+                document.getElementById('meterFill').style.width = Math.min(loveLevel, 100) + '%';
+                document.getElementById('meterText').innerText = levels[lvlIdx].text;
+                confetti({ particleCount: 30 * (lvlIdx + 1), spread: 60, colors: ['#FF2E7E', '#FF66B2', '#FFFFFF'] });
+                lvlIdx++;
+            } else {
+                document.getElementById('btn-boost').style.display = 'none';
+                document.getElementById('letterCard').style.display = 'block';
+                typeWriterEffect();
+                confetti({ particleCount: 150, spread: 100, colors: ['#FF2E7E', '#FF66B2', '#FFFFFF', '#B5179E'] });
+            }
+        }
+
+        let typeIdx = 0;
+        function typeWriterEffect() {
+            if (typeIdx < letterContent.length) {
+                document.getElementById("typewriter").innerHTML += letterContent.charAt(typeIdx);
+                typeIdx++;
+                setTimeout(typeWriterEffect, 30);
+            } else {
+                document.getElementById("secretContainer").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
